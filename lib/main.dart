@@ -24,37 +24,30 @@ ChangeNotifierProvider(create: (context) => LanguageChangeController(),)
 class MyApp extends StatelessWidget {
   final String locale;
 
-  MyApp({super.key,required this.locale});
+  MyApp({super.key,
+  required this.locale
+  });
 
   @override
   Widget build(BuildContext context) {
-
-    return Consumer<LanguageChangeController>(builder: (context,provider, child) {
-
-    if(locale.isEmpty){
-      provider.changeLanguage(Locale('en'));
-    }
-      return  MaterialApp(
-
-        //locale: Locale('es'),
-        locale:locale == '' ? Locale('en') :provider.applocal == null ? Locale('en'):provider.applocal,
+    return Consumer<LanguageChangeController>(builder: (context, provider, child) {
+      return MaterialApp(
+        locale: provider.applocal ?? Locale('en'), // Directly use applocal
         debugShowCheckedModeBanner: false,
-
         home: HomePageScreen(),
         localizationsDelegates: [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
-
         ],
-        supportedLocales: [
+        supportedLocales: const [
           Locale('en'),
           Locale('es'),
           Locale('ur'),
         ],
       );
-
-    },);
+    });
   }
 }
+
